@@ -113,7 +113,7 @@ body {
     border: none;
     font-size: 1rem;
 }
-#input-form button, #group-form button {
+.submit-btn {
     margin-top: 9px;
     width: 100%;
     padding: 10px;
@@ -124,9 +124,9 @@ body {
     font-size: 1.2rem;
     cursor: pointer;
 }
-#group-form button { background: #28c76f; }
-#input-form button:hover { background: #0056b3; }
-#group-form button:hover { background: #218a4a; }
+#group-form .submit-btn { background: #28c76f; }
+.submit-btn:hover { background: #0056b3; }
+#group-form .submit-btn:hover { background: #218a4a; }
 
 @media (max-width: 600px) {
     #main-title { font-size: 1.2rem; top: 10px; }

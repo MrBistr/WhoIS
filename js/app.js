@@ -17,12 +17,12 @@ function render() {
 }
 
 // Floating buttons logic (always visible, mobile-friendly)
-const toggleBtn = document.getElementById('toggle-form-btn');
+const addNodeFab = document.getElementById('add-node-fab');
 const inputForm = document.getElementById('input-form');
 const groupBtn = document.getElementById('add-group-btn');
 const groupForm = document.getElementById('group-form');
 
-toggleBtn.addEventListener('click', function(e) {
+addNodeFab.addEventListener('click', function(e) {
     e.stopPropagation();
     inputForm.classList.toggle('hidden');
     groupForm.classList.add('hidden');
@@ -35,7 +35,7 @@ groupBtn.addEventListener('click', function(e) {
     document.getElementById('group-name-input').focus();
 });
 document.addEventListener('mousedown', (e) => {
-    if (!inputForm.classList.contains('hidden') && !inputForm.contains(e.target) && !toggleBtn.contains(e.target)) {
+    if (!inputForm.classList.contains('hidden') && !inputForm.contains(e.target) && !addNodeFab.contains(e.target)) {
         inputForm.classList.add('hidden');
     }
     if (!groupForm.classList.contains('hidden') && !groupForm.contains(e.target) && !groupBtn.contains(e.target)) {
@@ -43,7 +43,7 @@ document.addEventListener('mousedown', (e) => {
     }
 });
 document.addEventListener('touchstart', (e) => {
-    if (!inputForm.classList.contains('hidden') && !inputForm.contains(e.target) && !toggleBtn.contains(e.target)) {
+    if (!inputForm.classList.contains('hidden') && !inputForm.contains(e.target) && !addNodeFab.contains(e.target)) {
         inputForm.classList.add('hidden');
     }
     if (!groupForm.classList.contains('hidden') && !groupForm.contains(e.target) && !groupBtn.contains(e.target)) {

@@ -12,22 +12,34 @@
         <h1 id="main-title">Social Map</h1>
         <div id="nodes-container"></div>
 
+        <!-- Floating action buttons container -->
         <div id="floating-buttons">
-            <button id="toggle-form-btn" class="fab add-node" title="Add Node">+</button>
+            <button id="add-node-fab" class="fab add-node" title="Add Node">+</button>
             <button id="add-group-btn" class="fab add-group" title="Add Group">G</button>
         </div>
 
+        <!-- Add Node Form -->
         <div id="input-form" class="hidden">
             <h2>Add a Node</h2>
-            <label>Name:<input type="text" id="name-input" placeholder="Enter name" /></label>
-            <label>Job Title:<input type="text" id="job-title-input" placeholder="Enter job title" /></label>
-            <label>Upload Image:<input type="file" id="image-upload" accept="image/*" /></label>
-            <button id="add-node-btn">Add Node</button>
+            <label>Name:
+                <input type="text" id="name-input" placeholder="Enter name" autocomplete="off" />
+            </label>
+            <label>Job Title:
+                <input type="text" id="job-title-input" placeholder="Enter job title" autocomplete="off" />
+            </label>
+            <label>Upload Image:
+                <input type="file" id="image-upload" accept="image/*" />
+            </label>
+            <button id="add-node-btn" class="submit-btn">Add Node</button>
         </div>
+
+        <!-- Add Group Form -->
         <div id="group-form" class="hidden">
             <h2>Add a Group</h2>
-            <label>Group Name:<input type="text" id="group-name-input" placeholder="Enter group name" /></label>
-            <button id="create-group-btn">Create Group</button>
+            <label>Group Name:
+                <input type="text" id="group-name-input" placeholder="Enter group name" autocomplete="off" />
+            </label>
+            <button id="create-group-btn" class="submit-btn">Create Group</button>
         </div>
     </div>
     <script src="https://anseki.github.io/leader-line/leader-line.min.js"></script>
