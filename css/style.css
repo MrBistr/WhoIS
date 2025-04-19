@@ -5,15 +5,9 @@ body {
     background-image: url('../img/background1.jpg');
     background-size: cover;
     background-position: center;
-    color: white;
     min-height: 100vh;
+    color: white;
     overflow: hidden;
-}
-
-#app {
-    width: 100vw;
-    height: 100vh;
-    position: relative;
 }
 
 #main-title {
@@ -23,7 +17,6 @@ body {
     transform: translateX(-50%);
     font-size: 2.5rem;
     font-weight: bold;
-    color: white;
     z-index: 5;
     text-shadow: 0 2px 8px #000;
     pointer-events: none;
@@ -31,7 +24,7 @@ body {
 
 #nodes-container {
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
+    inset: 0;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
@@ -45,6 +38,7 @@ body {
     align-items: center;
     cursor: pointer;
     z-index: 2;
+    transition: box-shadow 0.2s;
 }
 
 .node .circle {
@@ -57,7 +51,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: box-shadow 0.2s;
 }
 
 .node .circle img {
@@ -67,7 +60,7 @@ body {
     border-radius: 50%;
 }
 
-.node.selected .circle {
+.node.selected .circle, .group.selected .group-circle {
     box-shadow: 0 0 20px 5px #007bff;
 }
 
@@ -82,7 +75,21 @@ body {
     pointer-events: none;
 }
 
-#toggle-form-btn {
+.node.main .circle {
+    border: 5px solid #ff69b4;
+    box-shadow: 0 0 32px 8px #ff69b493;
+    width: 120px;
+    height: 120px;
+    background: #fff0fa;
+}
+.node.main .node-label {
+    color: #ff69b4;
+    font-size: 1.3rem;
+    font-weight: bolder;
+    text-shadow: 0 2px 8px #000;
+}
+
+.fab {
     position: fixed;
     bottom: 25px;
     right: 25px;
@@ -93,17 +100,26 @@ body {
     padding: 0;
     width: 56px;
     height: 56px;
-    font-size: 1.7rem;
+    font-size: 2.4rem;
     cursor: pointer;
     z-index: 7;
     box-shadow: 0 2px 8px rgba(0,0,0,0.4);
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background 0.18s;
 }
-#toggle-form-btn::after { content: '+'; }
+.fab.group {
+    right: 95px;
+    background: #28c76f;
+    font-size: 1.7rem;
+    width: 46px;
+    height: 46px;
+}
+.fab:hover { background: #0056b3; }
+.fab.group:hover { background: #218a4a; }
 
-#input-form {
+#input-form, #group-form {
     position: fixed;
     left: 50%;
     bottom: 0;
@@ -111,25 +127,24 @@ body {
     background: rgba(51,51,51,0.98);
     color: white;
     padding: 20px 20px 10px 20px;
-    width: 380px;
+    width: 370px;
     border-radius: 18px 18px 0 0;
     box-shadow: 0 -4px 18px 2px #1a1a1a90;
     z-index: 10;
     transition: all 0.2s;
 }
-#input-form.hidden { display: none; }
+#input-form.hidden, #group-form.hidden { display: none; }
 
-#input-form h2, #input-form p {
+#input-form h2, #input-form p, #group-form h2 {
     margin: 0 0 8px 0;
     text-align: center;
 }
-
-#input-form label {
+#input-form label, #group-form label {
     display: block;
     margin: 7px 0 0 0;
     font-size: 1rem;
 }
-#input-form input[type="text"], #input-form input[type="file"] {
+#input-form input[type="text"], #group-form input[type="text"], #input-form input[type="file"] {
     width: 95%;
     margin-top: 3px;
     margin-bottom: 7px;
@@ -138,7 +153,7 @@ body {
     border: none;
     font-size: 1rem;
 }
-#input-form button {
+#input-form button, #group-form button {
     margin-top: 9px;
     width: 100%;
     padding: 10px;
@@ -149,10 +164,56 @@ body {
     font-size: 1.2rem;
     cursor: pointer;
 }
+#group-form button { background: #28c76f; }
 #input-form button:hover { background: #0056b3; }
+#group-form button:hover { background: #218a4a; }
 
+/* Group circles */
+.group {
+    position: absolute;
+    min-width: 30px;
+    min-height: 30px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+    user-select: none;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: 3px solid #fff;
+    box-shadow: 0 0 14px 4px #00000044;
+    transition: box-shadow 0.18s;
+}
+.group.selected .group-circle {
+    box-shadow: 0 0 15px 6px #ffdbf0;
+}
+
+.group .group-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    margin-bottom: 2px;
+    border: 2px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+.group .group-label {
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 2px;
+    text-shadow: 0 1px 4px #000;
+}
 @media (max-width: 600px) {
     #main-title { font-size: 1.2rem; top: 10px; }
-    #input-form { width: 97vw; left: 50%; }
-    #toggle-form-btn { right: 13px; bottom: 13px; width: 46px; height: 46px; font-size: 1.3rem; }
+    #input-form, #group-form { width: 97vw; left: 50%; }
+    .fab { right: 13px; bottom: 13px; width: 46px; height: 46px; font-size: 1.3rem; }
+    .fab.group { right: 69px; width: 38px; height: 38px; }
 }

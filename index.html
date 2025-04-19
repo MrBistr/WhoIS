@@ -11,14 +11,19 @@
     <div id="app">
         <h1 id="main-title">Social Map</h1>
         <div id="nodes-container"></div>
-        <button id="toggle-form-btn">Add New</button>
+        <button id="toggle-form-btn" class="fab">+</button>
+        <button id="add-group-btn" class="fab group">G</button>
         <div id="input-form" class="hidden">
             <h2>Add a Node</h2>
-            <p>Create your own network by adding nodes for colleagues or connections.</p>
             <label>Name:<input type="text" id="name-input" placeholder="Enter name" /></label>
             <label>Job Title:<input type="text" id="job-title-input" placeholder="Enter job title" /></label>
             <label>Upload Image:<input type="file" id="image-upload" accept="image/*" /></label>
             <button id="add-node-btn">Add Node</button>
+        </div>
+        <div id="group-form" class="hidden">
+            <h2>Add a Group</h2>
+            <label>Group Name:<input type="text" id="group-name-input" placeholder="Enter group name" /></label>
+            <button id="create-group-btn">Create Group</button>
         </div>
     </div>
     <script src="https://anseki.github.io/leader-line/leader-line.min.js"></script>
