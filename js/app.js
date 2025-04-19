@@ -1,5 +1,6 @@
 import { createNode } from './nodes.js';
 
+// Add event listener to the "Add Node" button
 document.getElementById('add-node-btn').addEventListener('click', () => {
     const name = document.getElementById('name-input').value.trim();
     const jobTitle = document.getElementById('job-title-input').value.trim();
@@ -23,4 +24,10 @@ document.getElementById('add-node-btn').addEventListener('click', () => {
     document.getElementById('job-title-input').value = '';
     document.getElementById('image-upload').value = '';
     document.getElementById('input-form').classList.add('hidden');
+});
+
+// Add event listener to the "Add New" button
+document.getElementById('toggle-form-btn').addEventListener('click', () => {
+    const inputForm = document.getElementById('input-form');
+    inputForm.classList.toggle('hidden');
 });
