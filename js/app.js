@@ -11,20 +11,57 @@ let selectedGroupId = null;
 function render() {
     clearNodes();
     clearGroups();
-    // Main node is always the first node
-    nodes.forEach((node, idx) => {
-        createNodeDOM(node, node.id === selectedNodeId, idx === 0);
-    });
+    nodes.forEach((node, idx) => createNodeDOM(node, node.id === selectedNodeId, idx === 0));
     groups.forEach(g => createGroupDOM(g, g.id === selectedGroupId));
     setTimeout(() => drawConnections(nodes, groups), 0);
 }
+
+// Floating buttons logic (always visible, mobile-friendly)
+const toggleBtn = document.getElementById('toggle-form-btn');
+const inputForm = document.getElementById('input-form');
+const groupBtn = document.getElementById('add-group-btn');
+const groupForm = document.getElementById('group-form');
+
+toggleBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    inputForm.classList.toggle('hidden');
+    groupForm.classList.add('hidden');
+    document.getElementById('name-input').focus();
+});
+groupBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    groupForm.classList.toggle('hidden');
+    inputForm.classList.add('hidden');
+    document.getElementById('group-name-input').focus();
+});
+document.addEventListener('mousedown', (e) => {
+    if (!inputForm.classList.contains('hidden') && !inputForm.contains(e.target) && !toggleBtn.contains(e.target)) {
+        inputForm.classList.add('hidden');
+    }
+    if (!groupForm.classList.contains('hidden') && !groupForm.contains(e.target) && !groupBtn.contains(e.target)) {
+        groupForm.classList.add('hidden');
+    }
+});
+document.addEventListener('touchstart', (e) => {
+    if (!inputForm.classList.contains('hidden') && !inputForm.contains(e.target) && !toggleBtn.contains(e.target)) {
+        inputForm.classList.add('hidden');
+    }
+    if (!groupForm.classList.contains('hidden') && !groupForm.contains(e.target) && !groupBtn.contains(e.target)) {
+        groupForm.classList.add('hidden');
+    }
+});
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        inputForm.classList.add('hidden');
+        groupForm.classList.add('hidden');
+    }
+});
 
 // --- Node adding ---
 function addNode(name, jobTitle, image) {
     const id = 'n' + Date.now() + Math.floor(Math.random()*100000);
     let top, left;
     if (nodes.length === 0) {
-        // Center main node
         top = `${window.innerHeight/2 - 60}px`;
         left = `${window.innerWidth/2 - 60}px`;
     } else {
@@ -110,7 +147,7 @@ document.getElementById('nodes-container').addEventListener('click', function(e)
     }
 });
 
-// Node floating animation
+// Node floating animation for unconnected nodes
 function floatNodes() {
     nodes.forEach((n, idx) => {
         if (n.floating && idx !== 0) {
@@ -125,34 +162,6 @@ function floatNodes() {
     setTimeout(floatNodes, 40);
 }
 floatNodes();
-
-// --- Form open/close logic ---
-const toggleBtn = document.getElementById('toggle-form-btn');
-const inputForm = document.getElementById('input-form');
-const groupBtn = document.getElementById('add-group-btn');
-const groupForm = document.getElementById('group-form');
-toggleBtn.onclick = function() {
-    inputForm.classList.toggle('hidden');
-    groupForm.classList.add('hidden');
-};
-groupBtn.onclick = function() {
-    groupForm.classList.toggle('hidden');
-    inputForm.classList.add('hidden');
-};
-document.addEventListener('mousedown', (e) => {
-    if (!inputForm.classList.contains('hidden') && !inputForm.contains(e.target) && !toggleBtn.contains(e.target)) {
-        inputForm.classList.add('hidden');
-    }
-    if (!groupForm.classList.contains('hidden') && !groupForm.contains(e.target) && !groupBtn.contains(e.target)) {
-        groupForm.classList.add('hidden');
-    }
-});
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        inputForm.classList.add('hidden');
-        groupForm.classList.add('hidden');
-    }
-});
 
 // --- Add node form handling ---
 document.getElementById('add-node-btn').onclick = function() {

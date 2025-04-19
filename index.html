@@ -11,8 +11,12 @@
     <div id="app">
         <h1 id="main-title">Social Map</h1>
         <div id="nodes-container"></div>
-        <button id="toggle-form-btn" class="fab">+</button>
-        <button id="add-group-btn" class="fab group">G</button>
+
+        <div id="floating-buttons">
+            <button id="toggle-form-btn" class="fab add-node" title="Add Node">+</button>
+            <button id="add-group-btn" class="fab add-group" title="Add Group">G</button>
+        </div>
+
         <div id="input-form" class="hidden">
             <h2>Add a Node</h2>
             <label>Name:<input type="text" id="name-input" placeholder="Enter name" /></label>
