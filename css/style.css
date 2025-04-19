@@ -36,7 +36,7 @@ body {
     position: absolute;
     text-align: center;
     animation: flow 5s infinite alternate;
-    cursor: grab;
+    cursor: pointer;
 }
 
 @keyframes flow {
@@ -60,8 +60,22 @@ body {
     color: white;
 }
 
-.group-highlight {
-    box-shadow: 0 0 20px 5px yellow;
+#toggle-form-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+#toggle-form-btn:hover {
+    background: #0056b3;
 }
 
 #input-form {
@@ -76,6 +90,11 @@ body {
     text-align: center;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+#input-form.hidden {
+    display: none;
 }
 
 #input-form h2 {

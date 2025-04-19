@@ -3,10 +3,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const jobTitleInput = document.getElementById('job-title-input');
     const imageUpload = document.getElementById('image-upload');
     const addNodeBtn = document.getElementById('add-node-btn');
+    const toggleFormBtn = document.getElementById('toggle-form-btn');
+    const inputForm = document.getElementById('input-form');
     const nodesContainer = document.getElementById('nodes-container');
     const nodes = [];
-    let isFirstNode = true;
     let selectedNode = null;
+
+    // Toggle the visibility of the "Add a Node" form
+    toggleFormBtn.addEventListener('click', () => {
+        inputForm.classList.toggle('hidden');
+    });
 
     // Add a new node on button click
     addNodeBtn.addEventListener('click', () => {
@@ -21,9 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const node = document.createElement('div');
         node.classList.add('node');
-        node.style.top = isFirstNode ? '50%' : `${Math.random() * 90}vh`;
-        node.style.left = isFirstNode ? '50%' : `${Math.random() * 90}vw`;
-        if (isFirstNode) node.style.transform = 'translate(-50%, -50%)';
+        node.style.top = `${Math.random() * 90}vh`;
+        node.style.left = `${Math.random() * 90}vw`;
 
         if (file) {
             const reader = new FileReader();
@@ -48,61 +53,26 @@ document.addEventListener('DOMContentLoaded', () => {
         jobTitleInput.value = '';
         imageUpload.value = '';
 
-        isFirstNode = false;
-
-        // Add drag-and-drop and double-click functionality to the node
-        addDragAndDrop(node);
-        addDoubleClickToEdit(node);
+        // Add click-to-connect functionality
+        addClickToConnect(node);
     });
 
-    function addDragAndDrop(node) {
-        node.draggable = true;
-
-        node.addEventListener('dragstart', (e) => {
-            e.dataTransfer.setData('nodeId', nodes.indexOf(node));
-        });
-
-        node.addEventListener('drop', (e) => {
-            e.preventDefault();
-            const fromId = e.dataTransfer.getData('nodeId');
-            const fromNode = nodes[fromId];
-            const line = new LeaderLine(fromNode, node, { color: 'blue', size: 2 });
-        });
-
-        node.addEventListener('dragover', (e) => {
-            e.preventDefault();
-        });
-    }
-
-    function addDoubleClickToEdit(node) {
-        node.addEventListener('dblclick', (e) => {
-            e.stopPropagation();
-            if (selectedNode) return;
-
-            selectedNode = node;
-            const rect = node.getBoundingClientRect();
-
-            const editWindow = document.createElement('div');
-            editWindow.classList.add('edit-window');
-            editWindow.style.top = `${rect.bottom + window.scrollY}px`;
-            editWindow.style.left = `${rect.left + window.scrollX}px`;
-
-            editWindow.innerHTML = `
-                <input type="text" id="edit-name" value="${node.querySelector('.text-container strong').innerText}">
-                <input type="text" id="edit-job" value="${node.querySelector('.text-container').innerHTML.split('<br>')[1]}">
-                <button id="edit-ok-btn">OK</button>
-            `;
-
-            document.body.appendChild(editWindow);
-
-            document.getElementById('edit-ok-btn').addEventListener('click', () => {
-                const newName = document.getElementById('edit-name').value;
-                const newJob = document.getElementById('edit-job').value;
-
-                node.querySelector('.text-container').innerHTML = `<strong>${newName}</strong><br>${newJob}`;
-                editWindow.remove();
+    function addClickToConnect(node) {
+        node.addEventListener('click', () => {
+            if (!selectedNode) {
+                // Select the first node
+                selectedNode = node;
+                node.classList.add('selected'); // Optional: Add a CSS style for the selected node
+            } else if (selectedNode === node) {
+                // Deselect the node if clicked again
+                selectedNode.classList.remove('selected');
                 selectedNode = null;
-            });
+            } else {
+                // Create a connection between the selected node and the clicked node
+                new LeaderLine(selectedNode, node, { color: 'white', size: 2 });
+                selectedNode.classList.remove('selected');
+                selectedNode = null; // Reset selection
+            }
         });
     }
 });
