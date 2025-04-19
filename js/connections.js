@@ -1,27 +1,30 @@
-import { saveToLocalStorage, getFromLocalStorage } from './localStorage.js';
+import { saveToStorage, getFromStorage } from './storage.js';
 
-const connections = getFromLocalStorage('connections');
-let selectedNode = null;
+let lines = [];
+export function getConnections() {
+    return getFromStorage('connections', []);
+}
+export function setConnections(conns) {
+    saveToStorage('connections', conns);
+}
 
-export const addClickToConnect = (node) => {
-    node.addEventListener('click', () => {
-        if (!selectedNode) {
-            selectedNode = node;
-            node.classList.add('selected');
-        } else if (selectedNode === node) {
-            selectedNode.classList.remove('selected');
-            selectedNode = null;
-        } else {
-            const line = new LeaderLine(selectedNode, node, { color: 'white', size: 2 });
-            selectedNode.classList.remove('selected');
-            selectedNode = null;
+export function clearLines() {
+    lines.forEach(line => line.remove());
+    lines = [];
+}
 
-            // Stop motion and move nodes closer
-            node.style.animation = 'none';
-            selectedNode.style.animation = 'none';
-
-            connections.push({ from: selectedNode, to: node });
-            saveToLocalStorage('connections', connections);
+export function drawConnections(nodes) {
+    clearLines();
+    const nodeMap = {};
+    document.querySelectorAll('.node').forEach(el => {
+        nodeMap[el.dataset.nodeId] = el.querySelector('.circle');
+    });
+    const connections = getConnections();
+    connections.forEach(conn => {
+        const from = nodeMap[conn.from];
+        const to = nodeMap[conn.to];
+        if (from && to) {
+            lines.push(new LeaderLine(from, to, { color: 'white', size: 2 }));
         }
     });
-};
+}
