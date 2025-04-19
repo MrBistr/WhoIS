@@ -1,0 +1,121 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    color: white;
+    overflow: hidden;
+}
+
+#app {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+#nodes-container {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.node {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: transparent;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    text-align: center;
+    animation: flow 5s infinite alternate;
+    cursor: grab;
+}
+
+@keyframes flow {
+    0% { transform: translate(5px, 5px); }
+    100% { transform: translate(-5px, -5px); }
+}
+
+.node img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ffffff;
+}
+
+.node .text-container {
+    margin-top: 5px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+}
+
+.group-highlight {
+    box-shadow: 0 0 20px 5px yellow;
+}
+
+#input-form {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333333;
+    color: white;
+    padding: 15px;
+    width: 400px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+#input-form h2 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+#input-form p {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+#input-form label {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    display: block;
+}
+
+#input-form input {
+    width: 90%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 0.9rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#input-form button {
+    padding: 8px 15px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+#input-form button:hover {
+    background: #0056b3;
+}
